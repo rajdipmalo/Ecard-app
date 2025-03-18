@@ -1,0 +1,68 @@
+pan:
+fullname
+Father's name
+DOB
+image
+
+driving licence:
+fullname
+Father's name
+DOB
+address
+pin code
+image
+
+Election card:
+fullname
+ward name
+Gender
+DOB
+image
+
+#to create database
+python
+>>> from app import *
+>>> db.create_all()
+
+#create record:
+>>> from app import *
+>>> user1 = User(username="Admin123",email = "admin@user.com",password="1234",type="admin")     
+>>> db.session.add(user1)
+>>> db.session.commit()
+>>> user2 = User(username="Ansh",email = "ansh@user.com",password="1234")
+>>> db.session.add(user2)
+>>> db.session.commit()
+
+#update record:
+>>> user = User.query.filter_by(username="Yash").first()
+>>> user.username = "Rahul"
+>>> user.email = "rahul@user.com"
+>>> db.session.commit()
+
+#delete record:
+>>> user = User.query.get(3)
+>>> db.session.delete(user)
+>>> db.session.commit()
+
+#reading data:
+>>> users = User.query.all()
+>>> users
+[<User 1>, <User 2>]
+>>> user1 = users[0]
+>>> user1
+<User 1>
+>>> user1.username 
+'Admin123'
+>>> user1.password
+'1234'
+>>> user1.email
+'admin@user.com'
+
+#to exit shell> exit()
+
+#aadhard card of ansh
+details = Info.query.filter_by(user_id=user_id,c_name=card).all()
+details = [<fullname>,<f_name>,<gender>,<dob>,<address>,<image>,<status>,<key>]
+fullname = details[0]
+f_name = details[1]
+gender = details[2]

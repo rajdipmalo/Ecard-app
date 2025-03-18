@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Update Status</title>
-    <link rel="stylesheet" href="/ecard-app-mad1/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         #form-body{
@@ -13,20 +13,24 @@
 <body>
     <div id="main">
         <div id="canvas">
-            <div id="form-body" style="height: 555px; width:506px; margin-top: 125px;">
+            <div id="form-body" style="height: 555px; width:506px; margin-top: 125px; overflow-y:scroll">
                 <h1>Card Request Details</h1>
-                <label for="name" class="form-label">Fullname</label>
-                <input id="name" class="form-control" type="text" value="Rajdip Malo" aria-label="readonly input example" readonly>
-                <label for="card" class="form-label">Type of Card</label>
-                <input id="card" class="form-control" type="text" value="aadhar card" aria-label="readonly input example" readonly>
-                <label for="d1" class="form-label">detail 1</label>
-                <input id="d1" class="form-control" type="text" value="detail 1" aria-label="readonly input example" readonly>
-                <label for="d2" class="form-label">detail 2</label>
-                <input id="d2" class="form-control" type="text" value="detail 2" aria-label="readonly input example" readonly>
-                <form action="" method="post">
+                {% for detail in details%}
+                <label for="name" class="form-label">{{detail.atr_name}}</label>
+                    {% if detail.atr_name == "image" %}
+                        <br>
+                        <!-- <img src="/ecard-app-mad1/static/{{detail.atr_value}}" alt="user_image" height="100" width="100"> -->
+                        <img src="{{ url_for('static', filename=detail.atr_value) }}" alt="user_image" height="100" width="100">
+                        <br>
+                    {% else %}
+                        <input id="name" class="form-control" type="text" value="{{detail.atr_value}}" aria-label="readonly input example" readonly>
+                    {% endif %}
+                {% endfor %}
+               
+                <form action="/update_status/{{card}}/{{user_id}}" method="post">
                 <div class="mb-3">
                     <label for="Input1" class="form-label">Update Status</label>
-                    <select class="form-select" aria-label="Default select example" id="Input1" name="card">
+                    <select class="form-select" aria-label="Default select example" id="Input1" name="status">
                         
                         <option value="under_verification">Under Verification</option>
                         <option value="verified">Verified</option>
